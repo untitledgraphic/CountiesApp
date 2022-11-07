@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>English Counties Copypasta</title>
+
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="/countiesData.js" type="module"></script>
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+        <link type="text/css" rel="stylesheet" href="/styles.css">
+    </head>
+
+    <body>
+
+        <div id="app">
+
+            <h1>{{ message }}</h1>
+            
+            <div class="container">
+
+                <template v-for="county in counties" :key="counties.county">
+                    <div :id="county.county.replace(' ', '')" class="county">
+                    <h2>{{ county.county }} County Map // Framed Map of {{ county.county }} // Minimal Typographic County Map Print // England Maps</h2>
+                    <p>An original minimal map print of the ceremonial county of <span>{{ county.county }}</span>
+
+                        <span v-if="county.districts.length > 0"> including </span>
+                            
+                        <span v-for="(region, index) in county.districts" :key="region">
+
+                            <span v-if="index !== 0 && index !== county.districts.length - 1">, </span>
+                                
+                            <span v-if="index == county.districts.length - 1 && county.districts.length > 1"> and </span>
+                                {{ region.authority }}
+                        </span>.
+                    </p>
+                        
+                    <p>Where possible, as many of the 
+                        <span v-if="!county.cities">cities, </span>
+                        towns, villages and hamlets within the <span>{{ county.county }}</span> county border are included as close as possible to their location. Featuring major landmark towns <span v-if="!county.cities">and cities, </span> including
+                        <span v-for="(town, index) in county.landmark">
+                            <span v-if="index !== 0 && index !== county.landmark.length - 1">, </span>
+                            <span v-if="index == county.landmark.length - 1 && county.landmark.length > 1"> and </span>
+                            {{ town.location }}
+                        </span> 
+                        along with many more.</p>
+
+                    <p>The <span>{{ county.county }}</span> county border is picked out in pale green with the major <span>{{ county.county }}</span> road system subtly highlighted to give a sense of location. <span v-if="county.coastal">Coastal regions are picked out in blue hatching.</span></p>
+                    
+                    <p>Below the map of the county is the 
+                        <span v-if="!county.flag">unofficial {{ county.county }} flag</span>
+                        <span v-else-if="county.flag === 'crest'">{{ county.county }} crest</span>
+                        <span v-else>{{ county.county }} flag.</span> 
+                        <span v-if="county.motto"> as well as the county motto "<i>{{ county.motto }}</i>" 
+                            <span v-if="county.translation">which translates to "<i>{{ county.translation }}</i>."</span>
+                        </span>
+                    </p>
+                    <p>Available as a framed print or an unframed print in two sizes, both chosen to fit into standard-sized picture frames.</p>
+                    
+                    <p>Please make sure to select the correct size when you order.</p>
+                    <ul>
+                        <template v-if="county.portrait">
+                            <li>Small <span>{{ county.county }}</span> map print: 210mm x 297mm (A4)</li>
+                            <li>Large <span>{{ county.county }}</span> map print: 300mm x 400mm</li>
+                            <li>Framed <span>{{ county.county }}</span> map print: 300mm x 400mm print in 400 x 500mm solid wood frame.</li>
+                        </template>
+                        <template v-else>
+                            <li>Small <span>{{ county.county }}</span> map print: 297mm x 210mm (A4)</li>
+                            <li>Large <span>{{ county.county }}</span> map print: 400mm x 300mm</li>
+                            <li>Framed <span>{{ county.county }}</span> map print: 400mm x 300mm print in 500 x 400mm solid wood frame.</li>
+                        </template>
+                    </ul>
+
+                    <p>The framed map prints are mounted in an acid-free, high-quality 1400-micron white mount board and are available in three colours of solid wood frame: white, black and natural oak, each fitted with acrylic rather than glass to avoid unfortunate accidents in transit.</p>
+                    
+                    <p>Like this printed map of <span>{{ county.county }}</span>? You may also be interested in the county maps of:</p>
+                    <ul v-for="(neighbour, index) in county.closeby">
+                        <li>★ {{ neighbour.county }} {{ getLink(neighbour.county) }}</li>
+                    </ul>
+                    <p>or why not see the full range of county maps - https://etsy.me/3FO2hKn</p>
+                </template>
+            </div>
+
+            <ul class="nav">
+                <li v-for="county in counties" :key="counties.county">
+                    <a :href="'#' + county.county.replace(' ', '')">{{ county.county }}</a>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>
+
